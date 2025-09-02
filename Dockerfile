@@ -10,6 +10,9 @@
 # Run command
 # docker run --rm -it --gpus all phasedd:latest
 
+# Run Command with Volume mounting
+# docker run --rm -it --gpus all -v /home/Ethan/Projects/PhaseDD:/workspace phasedd:latest
+
 # Identify base image
 FROM nvidia/cuda:12.5.1-devel-ubuntu24.04 AS builder
 
@@ -89,5 +92,7 @@ RUN make -j 6
 
 RUN /opt/venv/bin/pip install --no-cache-dir numpy pandas
 
-RUN ./run_tests -j 6
+ENV OMPI_ALLOW_RUN_AS_ROOT=1
+ENV OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+
 
